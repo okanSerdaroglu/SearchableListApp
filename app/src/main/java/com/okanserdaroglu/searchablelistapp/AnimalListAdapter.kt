@@ -3,7 +3,7 @@ package com.okanserdaroglu.searchablelistapp
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.adapter_animal_list.view.*
 
@@ -34,9 +34,9 @@ class AnimalListAdapter (animals : ArrayList<Animal>): RecyclerView.Adapter<Anim
 
     class AnimalViewHolder (itemView: View) : RecyclerView.ViewHolder(itemView) {
 
-        var rowLayout = itemView as ConstraintLayout
-        var animalName = rowLayout.textViewName
-        var animalImage = rowLayout.imageViewAnimalImage
+        var rowLayout = itemView as CardView
+        var animalName = rowLayout.textViewName!!
+        var animalImage = rowLayout.imageViewAnimalImage!!
 
         fun bind(animal: Animal, position: Int) {
 
