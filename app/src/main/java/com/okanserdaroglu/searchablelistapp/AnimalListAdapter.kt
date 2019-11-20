@@ -9,9 +9,7 @@ import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.adapter_animal_list.view.*
 
 
-class AnimalListAdapter (animals : ArrayList<Animal>): RecyclerView.Adapter<AnimalListAdapter.AnimalViewHolder>() {
-
-    var animals = animals
+class AnimalListAdapter (var animals: ArrayList<Animal>): RecyclerView.Adapter<AnimalListAdapter.AnimalViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AnimalViewHolder {
 
@@ -29,6 +27,14 @@ class AnimalListAdapter (animals : ArrayList<Animal>): RecyclerView.Adapter<Anim
 
         var animal = animals[position]
         holder.bind(animal,position)
+
+    }
+
+    fun setFilter(searching: ArrayList<Animal>) {
+
+        animals.clear()
+        animals.addAll(searching)
+        notifyDataSetChanged()
 
     }
 

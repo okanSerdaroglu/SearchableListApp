@@ -2,26 +2,41 @@ package com.okanserdaroglu.searchablelistapp
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.Menu
+import android.widget.SearchView
 import kotlinx.android.synthetic.main.activity_main.*
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), SearchView.OnQueryTextListener,
+    androidx.appcompat.widget.SearchView.OnQueryTextListener {
 
     var animals = ArrayList<Animal>()
+    lateinit var adapter: AnimalListAdapter // lateinit means this variable is going to initialize later
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
         prepareData()
-        var adapter = AnimalListAdapter (animals)
+        adapter = AnimalListAdapter(animals)
         recyclerViewAnimalList.adapter = adapter
-
 
     }
 
-    private fun prepareData () : ArrayList<Animal> {
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
 
-        var images = arrayOf(R.drawable.ani_cat_one,
+        menuInflater.inflate(R.menu.filter_menu, menu)
+        var searchBar = menu?.findItem(R.id.app_bar_search)
+
+        var searchView = searchBar?.actionView as SearchView
+        searchView.setOnQueryTextListener(this)
+
+        return super.onCreateOptionsMenu(menu)
+    }
+
+    private fun prepareData(): ArrayList<Animal> {
+
+        val images = arrayOf(
+            R.drawable.ani_cat_one,
             R.drawable.ani_cat_two,
             R.drawable.ani_cat_three,
             R.drawable.ani_cat_four,
@@ -47,17 +62,40 @@ class MainActivity : AppCompatActivity() {
             R.drawable.bird_parrot_five,
             R.drawable.bird_parrot_six,
             R.drawable.bird_parrot_seven,
-            R.drawable.bird_parrot_eight)
+            R.drawable.bird_parrot_eight
+        )
 
-        var names = arrayOf("Kedi 1", "Kedi 2", "Kedi 3", "Kedi 4", "Kedi 5", "Kedi 6", "Kedi 7",
-            "Köpek 1", "Köpek 2", "Köpek 3", "Köpek 4", "Köpek 5",
-            "Geyik 1", "Geyik 2", "Geyik 3", "Geyik 4",
-            " Papagan 1", " Papagan 2", " Papagan 3", " Papagan 4", " Papagan 5", " Papagan 6", " Papagan 7", " Papagan 8")
+        val names = arrayOf(
+            "Kedi 1",
+            "Kedi 2",
+            "Kedi 3",
+            "Kedi 4",
+            "Kedi 5",
+            "Kedi 6",
+            "Kedi 7",
+            "Köpek 1",
+            "Köpek 2",
+            "Köpek 3",
+            "Köpek 4",
+            "Köpek 5",
+            "Geyik 1",
+            "Geyik 2",
+            "Geyik 3",
+            "Geyik 4",
+            " Papagan 1",
+            " Papagan 2",
+            " Papagan 3",
+            " Papagan 4",
+            " Papagan 5",
+            " Papagan 6",
+            " Papagan 7",
+            " Papagan 8"
+        )
 
 
-        for (i in images.indices){
+        for (i in images.indices) {
 
-            var animal = Animal (names[i],images[i])
+            val animal = Animal(names[i], images[i])
             animals.add(animal)
 
         }
@@ -67,6 +105,28 @@ class MainActivity : AppCompatActivity() {
     }
 
 
+    override fun onQueryTextSubmit(p0: String?): Boolean {
+        return false
+    }
+
+    override fun onQueryTextChange(p0: String?): Boolean {
+
+        var inputString = p0?.toLowerCase()
+        var searchingList = ArrayList<Animal>()
+
+        for (searchingAnimal in animals) {
+
+            var name = searchingAnimal.name.toLowerCase()
+
+            if (name.contains(inputString.toString())) {
+                searchingList.add(searchingAnimal)
+            }
+
+        }
+
+        adapter.setFilter(searchingList)
+        return true
+    }
 
 
 }
