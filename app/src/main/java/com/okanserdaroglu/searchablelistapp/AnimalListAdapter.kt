@@ -3,6 +3,7 @@ package com.okanserdaroglu.searchablelistapp
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.adapter_animal_list.view.*
@@ -42,6 +43,10 @@ class AnimalListAdapter (animals : ArrayList<Animal>): RecyclerView.Adapter<Anim
 
             animalName.text = animal.name
             animalImage.setImageResource(animal.image)
+
+            rowLayout.setOnClickListener {
+                Toast.makeText(rowLayout.context,"animal : " + position + " name : " + animal.name,Toast.LENGTH_SHORT).show()
+            }
 
         }
 
