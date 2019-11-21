@@ -19,6 +19,7 @@ class MainActivity : AppCompatActivity(), SearchView.OnQueryTextListener,
         prepareData()
         adapter = AnimalListAdapter(animals)
         recyclerViewAnimalList.adapter = adapter
+        searchViewAnimals.setOnQueryTextListener(this)
 
     }
 
@@ -111,7 +112,7 @@ class MainActivity : AppCompatActivity(), SearchView.OnQueryTextListener,
 
     override fun onQueryTextChange(p0: String?): Boolean {
 
-        var inputString = p0?.toLowerCase()
+        /*var inputString = p0?.toLowerCase()
         var searchingList = ArrayList<Animal>()
 
         for (searchingAnimal in animals) {
@@ -125,7 +126,12 @@ class MainActivity : AppCompatActivity(), SearchView.OnQueryTextListener,
         }
 
         adapter.setFilter(searchingList)
-        return true
+        return true*/
+
+        adapter.getFilter().filter(p0)
+
+        return true  //
+
     }
 
 

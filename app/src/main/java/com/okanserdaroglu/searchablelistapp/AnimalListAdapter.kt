@@ -3,13 +3,18 @@ package com.okanserdaroglu.searchablelistapp
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Filter
+import android.widget.Filterable
 import android.widget.Toast
 import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.adapter_animal_list.view.*
 
 
-class AnimalListAdapter (var animals: ArrayList<Animal>): RecyclerView.Adapter<AnimalListAdapter.AnimalViewHolder>() {
+class AnimalListAdapter (var animals: ArrayList<Animal>): RecyclerView.Adapter<AnimalListAdapter.AnimalViewHolder>(),Filterable {
+
+
+    var filter : FilterHelper = FilterHelper(animals,this)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AnimalViewHolder {
 
@@ -37,6 +42,20 @@ class AnimalListAdapter (var animals: ArrayList<Animal>): RecyclerView.Adapter<A
         notifyDataSetChanged()
 
     }
+
+    fun setResults(arrayList: ArrayList<Animal>) { // filter results
+
+        animals = arrayList
+        notifyDataSetChanged()
+
+    }
+
+    override fun getFilter(): Filter {
+
+        return filter
+
+    }
+
 
 
     class AnimalViewHolder (itemView: View) : RecyclerView.ViewHolder(itemView) {
